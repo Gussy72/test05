@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record model="ir.ui.view" id="wizard_dispersion_view_form">
+        <field name="name">wizard.dispersion.form</field>
+        <field name="model">wizard.dispersion</field>
+        <field name="arch" type="xml">
+            <form string="Dispersión Pagos">
+                <group>
+                    <group>
+                        <field name="reference"/>
+                        <field name="bank_account"/>
+                    </group>
+                </group>
+
+                <group>
+                    <field name="facturas">
+                        <tree>
+                            <field name="partner_id"/>
+                            <field name="invoice_date"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="amount_total_signed"/>
+                            <field name="amount_residual_signed" sum="total_residual_signed"/>
+                            <field name="partner_bank_id"/>
+                            <field name="state" invisible="1"/>
+                            <field name="move_type" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button type="object" name="create_report" string="Crear Reporte"/>
+                    <button type="special" special="cancel" string="Cerrar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_report_dispersion" model="ir.actions.act_window">
+        <field name="name">Dispersión Pagos</field>
+        <field name="res_model">wizard.dispersion</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_dispersion_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_report_dispersion" parent="account.menu_finance_payables"
+              action="action_report_dispersion"/>
+</odoo>    
+
+
+

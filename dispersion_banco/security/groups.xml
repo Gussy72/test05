@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record model="res.groups" id="group_factura_revisada">
+        <field name="name">Factura Revisada (Compras)</field>
+    </record>
+
+    <record model="res.groups" id="group_pagar_factura">
+        <field name="name">Programar Factura para Pago (Compras)</field>
+    </record>
+
+</odoo>
