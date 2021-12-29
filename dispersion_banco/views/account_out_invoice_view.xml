@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="invoice_supplier_tree_inh1" model="ir.ui.view">
+            <field name="name">invoice.supplier.tree.inh1</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_in_invoice_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="factura_revisada"/>
+                    <field name="pagar_factura"/>
+                    <field name="fecha_programada_para_pago"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="invoice_supplier_form_inh1" model="ir.ui.view">
+            <field name="name">invoice.supplier.form.inh1</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="factura_revisada"
+                           attrs="{'invisible':[('move_type','!=','in_invoice')], 'readonly': [('state','!=','posted')]}"
+                           groups="dispersion_banco.group_factura_revisada"/>
+                    <field name="pagar_factura"
+                           attrs="{'invisible':['|',('move_type','!=','in_invoice'),('factura_revisada','=',False)], 'readonly': [('state','!=','posted')]}"
+                           groups="dispersion_banco.group_pagar_factura"/>
+                    <field name="fecha_programada_para_pago"
+                           attrs="{'invisible':['|',('move_type','!=','in_invoice'),('pagar_factura','=',False)], 'required': [('move_type','=','in_invoice'),('pagar_factura','=',True)], 'readonly': [('state','!=','posted')]}"
+                           groups="dispersion_banco.group_pagar_factura"/>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_bank_id']" position="after">
+                    <field name="dispersion_reference"
+                           attrs="{'invisible':['|',('move_type','!=','in_invoice'),('state','=','draft')]}"/>
+                    <field name="dispersion_type"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':[('move_type','!=','in_invoice')]}"/>
+                    <field name="disponibilidad"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':['|',('move_type','!=','in_invoice'),('dispersion_type','not in',('TSC','PSC'))], 'required':[('dispersion_type','in',('TSC','PSC'))]}"/>
+                    <field name="tipo_cuenta"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':['|',('move_type','!=','in_invoice'),('dispersion_type','not in',('TSC','PSC'))], 'required':[('dispersion_type','in',('TSC','PSC'))]}"/>
+                    <field name="concepto_cie"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':['|',('move_type','!=','in_invoice'),('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                    <field name="convenio_cie"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':['|',('move_type','!=','in_invoice'),('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                    <field name="referencia_cie"
+                           attrs="{'readonly':[('amount_residual','&lt;=',0.0),('state','!=','draft')],'invisible':['|',('move_type','!=','in_invoice'),('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

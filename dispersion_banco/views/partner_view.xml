@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_property_form_inh1" model="ir.ui.view">
+            <field name="name">view.partner.form.inh1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']" position="inside">
+                    <group string="Dispersión de Pagos" name="dispersion">
+                        <group>
+                            <field name="dispersion_type"/>
+                            <field name="disponibilidad"
+                                   attrs="{'invisible':[('dispersion_type','not in',('TSC','PSC'))], 'required':[('dispersion_type','in',('TSC','PSC'))]}"/>
+                            <field name="tipo_cuenta"
+                                   attrs="{'invisible':[('dispersion_type','not in',('TSC','PSC'))], 'required':[('dispersion_type','in',('TSC','PSC'))]}"/>
+                            <field name="concepto_cie"
+                                   attrs="{'invisible':[('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                            <field name="convenio_cie"
+                                   attrs="{'invisible':[('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                            <field name="referencia_cie"
+                                   attrs="{'invisible':[('dispersion_type','!=','CIL')], 'required':[('dispersion_type','=','CIL')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+<!--
+                Este agregado no es necesario si ya cuenta con localizacion mexicana
+                <xpath expr="//field[@name='bank_ids']//field[@name='acc_number']" position="after">
+                    <field name="l10n_mx_edi_clabe"/>
+                </xpath>
+-->
+            </field>
+        </record>
+    </data>
+</odoo>
+

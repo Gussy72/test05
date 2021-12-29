@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_dispersion_ref" model="ir.sequence">
+            <field name="name">Referencia para Dispersión</field>
+            <field name="code">dispersion.ref</field>
+            <field name="padding">7</field>
+        </record>
+
+    </data>
+</odoo>
