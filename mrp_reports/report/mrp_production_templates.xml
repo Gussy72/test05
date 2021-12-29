@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_mrpmaterials">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="mb-4 text-center">
+                            <h4>
+                                <span>Resumen de Materiales a Consumir</span>
+                            </h4>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <strong>Órdenes incluidas:</strong>
+                                <span t-esc="''.join(names)"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm" t-if="o.move_raw_ids">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Orden</th>
+                                    <th>Cantidad</th>
+                                    <th>U Medida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <t t-foreach="lines" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <span t-esc="line['product_id'][1]"/>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'%.3f' % line['product_uom_qty']"/>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                        </td>
+
+                                    </tr>
+
+                                    <t t-set="moves" t-value="line['moves']"/>
+                                    <t t-foreach="moves" t-as="move">
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <span t-field="move.raw_material_production_id"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="'%.3f' % move.product_uom_qty"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="move.product_uom"/>
+                                            </td>
+                                        </tr>
+
+                                    </t>
+
+
+                                </t>
+
+                            </tbody>
+                        </table>
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
