@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            string="Production Materials" 
+            id="action_report_production_materials" 
+            model="mrp.production" 
+            name="mrp_reports.report_mrpmaterials"
+            file="mrp_reports.report.mrpmaterials" 
+            report_type="qweb-pdf"
+            print_report_name="'production_materials'"
+        />
+    </data>
+</odoo>
