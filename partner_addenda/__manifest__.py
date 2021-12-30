@@ -31,7 +31,7 @@
         'views/addenda_fresko.xml',
         'views/addenda_heb.xml',
         'views/addenda_smart.xml',
-        'views/addenda_soriana.xml',
+       # 'views/addenda_soriana.xml',
         'views/addenda_walmart_odoo14.xml',
         'views/res_partner_supplierinfo.xml',
         'views/res_partner.xml',
