@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <template id="partner_addenda.addenda_walmart" name="Addenda Walmart">
+            <t t-if="move_type == out_invoice">
+            <t t-set="FECHADOCTO_YYYYMMDD" t-value="datetime.datetime.strptime(str(record.l10n_mx_edi_post_time),'%Y-%m-%d %H:%M:%S').date().strftime('%Y%m%d')"/>
+            <t t-set="FECHADOCTO_YYMMDD" t-value="datetime.datetime.strptime(str(record.l10n_mx_edi_post_time),'%Y-%m-%d %H:%M:%S').date().strftime('%y%m%d')"/>
+            <t t-set="HORADOCTO_HHMMSS" t-value="datetime.datetime.strptime(str(record.l10n_mx_edi_post_time),'%Y-%m-%d %H:%M:%S').time().strftime('%H%M%S')"/>
+            <t t-set="HORADOCTO_HHMM" t-value="datetime.datetime.strptime(str(record.l10n_mx_edi_post_time),'%Y-%m-%d %H:%M:%S').time().strftime('%H%M')"/>
+            <t t-set="FECHAENTREGA_YYYYMMDD" t-value="record.x_delivery_reference_date.strftime('%Y%m%d')"/>
+            <t t-if="record.move_type == 'out_invoice'">    
+<Documento>
+UNB+UNOB:1+EDIWEB383:ZZ+925485MX00:8+<t t-esc="FECHADOCTO_YYMMDD"/>:<t t-esc="HORADOCTO_HHMM"/>+<t t-esc="record.sequence_number"/>'
+UNH+1+INVOIC:D:01B:UN:AMC002'
+BGM+380+<t t-esc="record.sequence_number"/>+9'
+DTM+137:<t t-esc="FECHADOCTO_YYYYMMDD"/><t t-esc="HORADOCTO_HHMMSS"/>:204'
+FTX+ZZZ+++<t t-esc="record._l10n_mx_edi_cfdi_amount_to_text()"/>.+ES'
+RFF+<t t-esc="record.partner_shipping_id.x_CedisTienda"/>:<t t-esc="record.x_order_reference"/>'
+DTM+171:<t t-esc="FECHAENTREGA_YYYYMMDD"/>:102'
+RFF+BT:<t t-esc="record.sequence_prefix"/>'
+NAD+BY+7507003100001::9++NUEVA WAL MART DE MEXICO S DE RL DE:CV+NEXTENGO NO 78:SANTA CRUZ ACAYUCAN+AZCAPOTZALCO+CDMX+02770'
+RFF+GN:<t t-esc="record.partner_id.vat"/>'
+NAD+SU+++<t t-esc="record.company_id.partner_id.name[:35]"/>+<t t-esc="record.company_id.partner_id.street_name[:35]"/><t t-esc="record.company_id.partner_id.street_number[:35] or ''"/><t t-esc="record.company_id.partner_id.street_number2 or ''"/>:<t t-esc="record.company_id.partner_id.l10n_mx_edi_colony[:35]"/>+<t t-esc="record.company_id.partner_id.city_id.name[:35]"/>+CDMX+<t t-esc="record.company_id.partner_id.zip"/>'
+RFF+GN:<t t-esc="record.company_id.partner_id.vat"/>'
+RFF+IA:<t t-esc="record.partner_shipping_id.x_edi_identification"/>'
+NAD+ST+<t t-esc="record.partner_shipping_id.x_gln"/>::9++<t t-esc="record.partner_shipping_id.name"/>+<t t-esc="record.partner_shipping_id.street_name"/><t t-esc="record.partner_shipping_id.street_number or ''"/><t t-esc="record.partner_shipping_id.street_number2 or ''"/>:<t t-esc="record.partner_shipping_id.l10n_mx_edi_colony[:35] or ''"/>+<t t-esc="record.partner_shipping_id.city_id.name[:35]"/>+<t t-esc="record.partner_shipping_id.state_id.name[:9]"/>+<t t-esc="record.partner_shipping_id.zip"/>'
+CUX+2:MXN:4'
+PAT+1++5:3:D:60'
+<!-- Rutina para recorrer las partidas --><t t-set="num_linea" t-value="1"/><t t-foreach="record.invoice_line_ids" t-as="linea">LIN+<t t-esc="num_linea"/>++<t t-esc="linea.product_id.barcode"/>:SRV::9' IMD+F++:::<t t-esc="linea.product_id.name"/>::ES'
+QTY+47:<t t-esc="linea.quantity"/>:EA'
+MOA+203:<t t-esc="linea.price_subtotal"/>'
+PRI+AAA:<t t-esc="linea.price_unit"/>::::EA'
+TAX+7+VAT+++:::<t t-esc="record.invoice_line_ids.tax_ids.amount"/>+B'
+MOA+124:<t t-esc="record.amount_tax"/>'<t t-set="num_linea" t-value="num_linea+1"/></t>
+UNS+S'
+CNT+2:<t t-esc="num_linea-1"/>'
+MOA+9:<t t-esc="record.amount_total"/>'
+MOA+79:<t t-esc="record.amount_untaxed"/>'
+MOA+125:<t t-esc="record.amount_untaxed"/>'
+TAX+7+VAT+++:::0+B'
+MOA+124:<t t-esc="record.amount_tax"/>'
+UNT+<t t-esc="23+7*(num_linea-1)"/>+1'
+UNZ+1+<t t-esc="record.sequence_number"/>'
+</Documento>
+                    </t>
+                </t>
+        </template>
+        <record id="partner_addenda.addenda_walmart" model="ir.ui.view">
+            <field name="l10n_mx_edi_addenda_flag">True</field>
+        </record>
+    </data>
+</odoo>
